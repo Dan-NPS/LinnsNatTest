@@ -10,6 +10,7 @@ var firstPlaceHolder = function ($scope, $element) {
         return items;
     }
 
+    
     //this.validatePermissions = function (itemKey) {
     //    return true;
     //}
