@@ -1,28 +1,62 @@
+// edit item
 var firstPlaceHolder = function ($scope, $element) {
     this.getItems = function () {
         var items = [{
-            key: "testButton",
-            text: "Test Button"
+            key: "productStats",
+            text: "Product Stock Stats",
+            icon: "fa fa-bar-chart func"
         }];
 
         return items;
     }
 
-    this.isEnabled = true;
+    //this.validatePermissions = function (itemKey) {
+    //    return true;
+    //}
 
-    this.onClick = function ($event) {
-    
-        new Core.Window({
-            windowName: 'ProductStats',
-            moduleName: 'ProductStats',
-            onWindowClosed: function (event) {
+    this.isEnabled = function (itemKey) {
+        switch (itemKey) {
+            case "productStats":
+                return $scope.selectedRowsCount == 1;
+        }
+
+        return;
+    }
+
+    this.onClick = function (itemKey, $event) {
+        var gridScope = $element.find(".inventoryItemsGrid").scope();
+
+        switch (itemKey) {
+            case "productStats":
+                new Core.Window({
+                    windowName: 'ProductStats',
+                    moduleName: 'ProductStats',
+                    data: { Item: gridScope.getSelectedItem()  },
+                    onWindowClosed: function (event) {
                        
-            }
-        }).open();
+                    }
+                }).open();
+                break;
+        }
     }
 }
 
+
 Core.PlaceHolderManager.register({
     moduleName: "MyInventory",
-    placeHolderName: "Test Button"
+    placeHolderName: "MyInventory_RightTopButtons"
+}, firstPlaceHolder);
+
+
+// Right top context menu
+Core.PlaceHolderManager.register({
+    moduleName: "MyInventory",
+    placeHolderName: "MyInventory_RightTopContextMenu"
+}, firstPlaceHolder);
+
+
+// Grid context menu
+Core.PlaceHolderManager.register({
+    moduleName: "MyInventory",
+    placeHolderName: "MyInventory_GridContextMenu"
 }, firstPlaceHolder);
